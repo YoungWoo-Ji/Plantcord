@@ -1,3 +1,6 @@
 node_modules/
 config.json
 test.js
+user.db
+system.db
+data.db
