@@ -9,7 +9,7 @@ module.exports = {
 
 	async execute(interaction) {
     const embed = new EmbedBuilder()
-      .setColor('Blurple')
+      .setColor('Purple')
       .setTitle('❓ 도움말')
       .setDescription('어플의 모든 명령어입니다.')
       .addFields(

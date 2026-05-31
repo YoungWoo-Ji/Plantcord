@@ -1,6 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder,ActionRowBuilder,ButtonBuilder,ButtonStyle } = require("discord.js");
-const Database = require('better-sqlite3')
-const client = require('../../client')
 const { discord_invite_code,clientId } = require('../../config.json')
 
 module.exports = {
@@ -10,9 +8,7 @@ module.exports = {
     .setDMPermission(false),
   permission:1,
 	async execute(interaction) {
-    const db = new Database('DB/user.db')
-    const users = db.prepare('SELECT id FROM user').all()
-    db.close()
+    const client = interaction.client
     //어플정보 업데이트
     await client.application.fetch()
     //제작일
@@ -21,12 +17,11 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setColor('Blurple')
       .setTitle('어플 정보')
-      .setDescription('별빛 수집가 어플리케이션의 잡다한 정보들입니다.')
+      .setDescription('어플리케이션의 잡다한 정보들입니다.')
       .addFields(
         {name:'어플이름', value:`${client.user.username}`,inline:true},
         {name:'제작일', value:`${createAt.getFullYear()}년 ${createAt.getMonth()+1}월 ${createAt.getDate()}일`,inline:true},
         {name:'참여한 서버 수',value:`${interaction.client.guilds.cache.size}개`,inline:true},
-        {name:'수집가 수', value:`${users.length}명`,inline:true},
         {name:'제작자',value:'**지영우**@jiyoungwoo',inline:true},
         {name:'핑',value:`${client.ws.ping}ms`,inline:true}
       )

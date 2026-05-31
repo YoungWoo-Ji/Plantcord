@@ -14,15 +14,15 @@ module.exports = {
 			}
 
 			//회원 전용 메뉴 (DB 설정 필요)
-			// if(command.permission===2){
-			// 	const db = new Database('DB/user.db')
-			// 	const find = db.prepare('SELECT * FROM user WHERE user_id=?').get(interaction.user.id)
-			// 	db.close()
-			// 	if(!find){
-			// 		interaction.reply({content:'⚠️ 해당 명령어는 정보가 등록된 회원만 사용이 가능합니다.',flags:MessageFlags.Ephemeral})
-			// 		return
-			// 	}
-			// }
+			if(command.permission===2){
+				const db = new Database('DB/user.db')
+				const find = db.prepare('SELECT * FROM user WHERE user_id=?').get(interaction.user.id)
+				db.close()
+				if(!find){
+					interaction.reply({content:'⚠️ 해당 명령어는 정보가 등록된 회원만 사용이 가능합니다.',flags:MessageFlags.Ephemeral})
+					return
+				}
+			}
 			
 			try {
 				await command.execute(interaction);
