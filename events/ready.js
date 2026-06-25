@@ -8,7 +8,7 @@ module.exports = {
 		// 상태 설정
 		client.user.setPresence({
 			activities: [{
-				name:'/시작하기 를 입력해보세요!',
+				name:'/도움말 을 입력해보세요!',
 				type: ActivityType.Custom
 			}],
 			status:'online'

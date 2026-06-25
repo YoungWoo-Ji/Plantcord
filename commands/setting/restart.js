@@ -14,6 +14,9 @@ module.exports = {
         .setTitle('♻️ 봇을 재시작 중입니다...')
     ]});
 
+    // DB 닫기
+    interaction.client.db.close();
+
     exec('pm2 restart bot', (error, stdout, stderr) => {
       if (error) {
         console.error(`에러 발생: ${error.message}`);

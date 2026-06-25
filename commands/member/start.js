@@ -1,5 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder,MessageFlags, AttachmentBuilder } = require("discord.js");
-const Database = require('better-sqlite3')
+const { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, MessageFlags } = require("discord.js");
 
 module.exports = {
   
@@ -10,29 +9,31 @@ module.exports = {
   permission:1,
 	async execute(interaction) {
 
-    const db = new Database('DB/user.db')
-    const find = db.prepare('SELECT * FROM user WHERE user_id=?')
-    const user = find.get(interaction.user.id)
+    const db = interaction.client.db
+    const user = db.prepare('SELECT * FROM user WHERE user_id=?').get(interaction.user.id)
 
-    //동일 회원 존재여부 확인
+    // 동일 회원 존재여부 확인
     if (user){
-      db.close()
       await interaction.reply({flags:MessageFlags.Ephemeral, content:'⚠️ 이미 회원으로 등록되었습니다.'})
       return
     }
 
-    const insert = db.prepare('INSERT INTO user (user_id,date) VALUES (?,?)')
-    insert.run(interaction.user.id,Date.now())
-    db.close
-    
-    const embed = new EmbedBuilder()
-      .setColor('Purple')
-      .setTitle("회원가입이 완료되었습니다.")
-      .setDescription("ㅊㅋ")
-      .addFields(
-        {name:"❓ 이제 뭘 해야하죠?", value:"저도 모르겠네요"}
-      )
+    const modal = new ModalBuilder()
+      .setCustomId('register-member')
+      .setTitle('회원가입')
 
-		await interaction.reply({embeds:[embed]});
+    const nicknameInput = new TextInputBuilder()
+      .setCustomId('nickname')
+      .setLabel('이름(닉네임)')
+      .setStyle(TextInputStyle.Short)
+      .setPlaceholder('게임 내에서 사용할 이름을 입력해주세요.')
+      .setRequired(true)
+      .setMinLength(1)
+      .setMaxLength(16)
+
+    const row = new ActionRowBuilder().addComponents(nicknameInput)
+    modal.addComponents(row)
+
+    await interaction.showModal(modal)
   }
 }

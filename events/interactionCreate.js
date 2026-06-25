@@ -1,5 +1,4 @@
 const { Events, MessageFlags } = require('discord.js');
-const Database = require('better-sqlite3')
 
 module.exports = {
 	name: Events.InteractionCreate,
@@ -15,9 +14,8 @@ module.exports = {
 
 			//회원 전용 메뉴 (DB 설정 필요)
 			if(command.permission===2){
-				const db = new Database('DB/user.db')
+				const db = interaction.client.db
 				const find = db.prepare('SELECT * FROM user WHERE user_id=?').get(interaction.user.id)
-				db.close()
 				if(!find){
 					interaction.reply({content:'⚠️ 해당 명령어는 정보가 등록된 회원만 사용이 가능합니다.',flags:MessageFlags.Ephemeral})
 					return
@@ -90,9 +88,8 @@ module.exports = {
 			}
 
 			if(command.permission===2){
-				const db = new Database('DB/user.db')
+				const db = interaction.client.db
 				const find = db.prepare('SELECT * FROM user WHERE user_id=?').get(interaction.user.id)
-				db.close()
 				if(!find){
 					interaction.reply({content:'⚠️ 해당 명령어는 정보가 등록된 여행자만 이용 가능합니다.\n\'/여권발급\' 명령어로 정보를 등록해주세요.',flags:MessageFlags.Ephemeral})
 					return

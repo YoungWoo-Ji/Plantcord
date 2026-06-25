@@ -6,7 +6,7 @@ module.exports = {
   async execute(interaction){
 
     const embed = new EmbedBuilder()
-      .setColor('Purple')
+      .setColor('Green')
       .setTitle('회원탈퇴 절차가 취소되었습니다.')
       .setDescription('bb')
 

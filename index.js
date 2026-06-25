@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Partials, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
+const Database = require('better-sqlite3')
 
 const client = new Client({ 
 	intents: [
@@ -20,6 +21,9 @@ const client = new Client({
 process.on('uncaughtException', (err) => {
 	console.error(String(err.stack));
 });
+
+//DB open
+client.db = new Database('DB/user.db')
 
 //Slash commands
 client.commands = new Collection();
