@@ -85,7 +85,7 @@ module.exports = {
         db.prepare('INSERT INTO user (userId, date, nickname) VALUES (?, ?, ?)')
           .run(interaction.user.id, Date.now(), nickname)
         db.prepare('INSERT INTO status (userId,location,gold,health,mana,changeAt) VALUES (?, ?, ?, ?, ?, ?)')
-          .run(interaction.user.id, '도토리 마을', 300, 100, 100, Date.now())
+          .run(interaction.user.id, '에버그린 마을', 300, 100, 100, Date.now())
         db.prepare('INSERT INTO level (userId,level,exp,statPoints,str,int,con,per,dex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
           .run(interaction.user.id, 1, 0, 3, 0, 0, 0, 0, 0)
       })

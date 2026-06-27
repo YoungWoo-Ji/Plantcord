@@ -15,7 +15,7 @@ module.exports = {
     .setName('상태')
     .setDescription('사용자의 상태를 확인합니다.'),
   permission: 2,
-  availableStatus:[null,"탐험"],
+  availableStatus:[null,"탐험","이동"],
   async execute(interaction) {
     const db = interaction.client.db
     const userId = interaction.user.id

@@ -13,7 +13,7 @@ module.exports = {
     const location = mapData[userStatus.location]
 
     if (!location) {
-      await interaction.reply({ content: '⚠️ 현재 위치를 찾을 수 없습니다. 관리자에게 문의하세요.', MessageFlags: MessageFlags.Ephemeral })
+      await interaction.reply({ content: '⚠️ 현재 위치를 찾을 수 없습니다. 관리자에게 문의하세요.', flags: MessageFlags.Ephemeral })
       return
     }
 

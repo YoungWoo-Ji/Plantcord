@@ -8,6 +8,7 @@ const DiceManager = require('./managers/DiceManager');
 const GameManager = require('./managers/GameManager');
 
 const itemData = require('./data/items.json')
+const mapData = require('./data/map.json')
 
 const client = new Client({ 
 	intents: [
@@ -37,6 +38,7 @@ client.game = new GameManager(client)
 
 //datas
 client.items = itemData
+client.maps = mapData
 
 //Slash commands
 client.commands = new Collection();

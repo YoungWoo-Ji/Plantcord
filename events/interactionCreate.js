@@ -27,11 +27,11 @@ module.exports = {
 
 				if (Object.prototype.hasOwnProperty.call(command, 'availableStatus')) {
 					if (!Array.isArray(command.availableStatus) || !command.availableStatus.includes(userStatus)) {
-						interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.', flags: MessageFlags.Ephemeral})
+						interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.'+`\n(현재 상태: ${userStatus})`, flags: MessageFlags.Ephemeral})
 						return
 					}
 				} else if (userStatus !== null) {
-					interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.', flags: MessageFlags.Ephemeral})
+					interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.'+`\n(현재 상태: ${userStatus})`, flags: MessageFlags.Ephemeral})
 					return
 				}
 			}
@@ -116,11 +116,11 @@ module.exports = {
 
 				if (Object.prototype.hasOwnProperty.call(command, 'availableStatus')) {
 					if (!Array.isArray(command.availableStatus) || !command.availableStatus.includes(userStatus)) {
-						interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.', flags: MessageFlags.Ephemeral})
+						interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.'+`\n(현재 상태: ${userStatus})`, flags: MessageFlags.Ephemeral})
 						return
 					}
 				} else if (userStatus !== null) {
-					interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.', flags: MessageFlags.Ephemeral})
+					interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.'+`\n(현재 상태: ${userStatus})`, flags: MessageFlags.Ephemeral})
 					return
 				}
 			}
@@ -170,11 +170,11 @@ module.exports = {
 
 				if (Object.prototype.hasOwnProperty.call(command, 'availableStatus')) {
 					if (!Array.isArray(command.availableStatus) || !command.availableStatus.includes(userStatus)) {
-						interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.', flags: MessageFlags.Ephemeral})
+						interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.'+`\n(현재 상태: ${userStatus})`, flags: MessageFlags.Ephemeral})
 						return
 					}
 				} else if (userStatus !== null) {
-					interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.', flags: MessageFlags.Ephemeral})
+					interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.'+`\n(현재 상태: ${userStatus})`, flags: MessageFlags.Ephemeral})
 					return
 				}
 			}
