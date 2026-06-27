@@ -1,4 +1,4 @@
-const { EmbedBuilder,StringSelectMenuBuilder,ActionRowBuilder,StringSelectMenuOptionBuilder } = require('discord.js');
+const { EmbedBuilder,StringSelectMenuBuilder,ActionRowBuilder,StringSelectMenuOptionBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = {
   name: '거대한 나무 발견',
@@ -14,6 +14,11 @@ module.exports = {
         +'이 나무의 가지를 잘라낸다면 훌륭한 무기와 도구의 재료가 될 것입니다.'
         + '\n```'
       )
+
+    const button = new ButtonBuilder()
+      .setCustomId(`ignore-${interaction.user.id}`)
+      .setStyle(ButtonStyle.Secondary)
+      .setLabel('무시하기')
 
     const selctMenu = new StringSelectMenuBuilder()
       .setCustomId(`exploreDifficulty-${interaction.user.id}-거대한 나무 발견`)
@@ -47,10 +52,12 @@ module.exports = {
       )
     }
 
-    const row = new ActionRowBuilder()
+    const row1 = new ActionRowBuilder()
       .addComponents(selctMenu)
+    const row2 = new ActionRowBuilder()
+      .addComponents(button)
 
-    await interaction.followUp({ embeds: [embed], components: [row] });
+    await interaction.followUp({ embeds: [embed], components: [row1,row2] });
 
   }
 };
