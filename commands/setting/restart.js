@@ -16,6 +16,7 @@ module.exports = {
 
     // DB 닫기
     interaction.client.db.close();
+    interaction.client.system.close();
 
     exec('pm2 restart bot', (error, stdout, stderr) => {
       if (error) {

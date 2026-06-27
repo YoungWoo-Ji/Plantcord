@@ -2,7 +2,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Partials, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
-const Database = require('better-sqlite3')
+const Database = require('better-sqlite3');
+
+const DiceManager = require('./managers/DiceManager');
+const GameManager = require('./managers/GameManager');
+
+const itemData = require('./data/items.json')
 
 const client = new Client({ 
 	intents: [
@@ -24,6 +29,14 @@ process.on('uncaughtException', (err) => {
 
 //DB open
 client.db = new Database('DB/user.db')
+client.system = new Database('DB/system.db')
+
+//managers
+client.dice = new DiceManager(client)
+client.game = new GameManager(client)
+
+//datas
+client.items = itemData
 
 //Slash commands
 client.commands = new Collection();
@@ -80,6 +93,39 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 	console.log(`[event] ${file} loaded`)
+}
+
+//Custom Events (customEvents 폴더의 모든 서브폴더를 동적으로 로드)
+client.customEvents = new Collection();
+const customEventsBasePath = path.join(__dirname, 'customEvents');
+
+// customEvents 폴더가 존재하는지 확인
+if (fs.existsSync(customEventsBasePath)) {
+	const customEventFolders = fs.readdirSync(customEventsBasePath);
+	let eventsNumber = 0
+	for (const folder of customEventFolders) {
+		const customEventFolderPath = path.join(customEventsBasePath, folder);
+		const stats = fs.statSync(customEventFolderPath);
+		
+		// 폴더인 경우만 처리
+		if (!stats.isDirectory()) continue;
+		
+		// 각 폴더별로 Collection 생성
+		client.customEvents[folder] = new Collection();
+		const customEventFiles = fs.readdirSync(customEventFolderPath).filter(file => file.endsWith('.js'));
+		
+		for (const file of customEventFiles) {
+			const filePath = path.join(customEventFolderPath, file);
+			const customEvent = require(filePath);
+			if ('name' in customEvent && 'execute' in customEvent) {
+				client.customEvents[folder].set(customEvent.name, customEvent);
+				eventsNumber++
+			} else {
+				console.log(`[WARNING] The custom event at ${filePath} is missing a required "name" or "execute" property.`);
+			}
+		}
+	}
+	console.log(`[custom events] Total ${eventsNumber} events loaded`);
 }
 
 client.login(token);

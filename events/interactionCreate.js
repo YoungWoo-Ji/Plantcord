@@ -15,9 +15,23 @@ module.exports = {
 			//회원 전용 메뉴 (DB 설정 필요)
 			if(command.permission===2){
 				const db = interaction.client.db
-				const find = db.prepare('SELECT * FROM user WHERE user_id=?').get(interaction.user.id)
+				const find = db.prepare('SELECT * FROM user WHERE userId=?').get(interaction.user.id)
 				if(!find){
 					interaction.reply({content:'⚠️ 해당 명령어는 정보가 등록된 회원만 사용이 가능합니다.',flags:MessageFlags.Ephemeral})
+					return
+				}
+
+				// 
+				const statusRow = db.prepare('SELECT * FROM status WHERE userId=?').get(interaction.user.id)
+				const userStatus = statusRow.status
+
+				if (Object.prototype.hasOwnProperty.call(command, 'availableStatus')) {
+					if (!Array.isArray(command.availableStatus) || !command.availableStatus.includes(userStatus)) {
+						interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.', flags: MessageFlags.Ephemeral})
+						return
+					}
+				} else if (userStatus !== null) {
+					interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.', flags: MessageFlags.Ephemeral})
 					return
 				}
 			}
@@ -87,11 +101,26 @@ module.exports = {
 				return;
 			}
 
+			// 회원 전용 버튼
 			if(command.permission===2){
 				const db = interaction.client.db
-				const find = db.prepare('SELECT * FROM user WHERE user_id=?').get(interaction.user.id)
+				const find = db.prepare('SELECT * FROM user WHERE userId=?').get(interaction.user.id)
 				if(!find){
-					interaction.reply({content:'⚠️ 해당 명령어는 정보가 등록된 여행자만 이용 가능합니다.\n\'/여권발급\' 명령어로 정보를 등록해주세요.',flags:MessageFlags.Ephemeral})
+					interaction.reply({content:'⚠️ 해당 명령어는 정보가 등록된 회원만 사용이 가능합니다.',flags:MessageFlags.Ephemeral})
+					return
+				}
+
+				// 상태 확인
+				const statusRow = db.prepare('SELECT * FROM status WHERE userId=?').get(interaction.user.id)
+				const userStatus = statusRow.status
+
+				if (Object.prototype.hasOwnProperty.call(command, 'availableStatus')) {
+					if (!Array.isArray(command.availableStatus) || !command.availableStatus.includes(userStatus)) {
+						interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.', flags: MessageFlags.Ephemeral})
+						return
+					}
+				} else if (userStatus !== null) {
+					interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.', flags: MessageFlags.Ephemeral})
 					return
 				}
 			}
@@ -115,16 +144,41 @@ module.exports = {
 			//customId에 유저 id 포함
 			if(customId.length >= 2){
 				if(customId[1]!==interaction.user.id){
-					interaction.reply({content:"해당 버튼은 메뉴 생성 유저만 상호작용 가능합니다.",flags:MessageFlags.Ephemeral})
+					interaction.reply({content:"⚠️ 해당 메뉴는 메뉴 생성 유저만 상호작용 가능합니다.",flags:MessageFlags.Ephemeral})
 					return
 				}
 			}
 
-			const command = interaction.client.interactions.stringselectmenu.get(customId[0]);
+			const command = interaction.client.interactions.stringSelectMenu.get(customId[0]);
 			if(!command) {
 				console.error(`No StringSelectMenu command matching ${customId[0]} was found.`);
 				return;
 			}
+
+			// 회원 전용 메뉴
+			if(command.permission===2){
+				const db = interaction.client.db
+				const find = db.prepare('SELECT * FROM user WHERE userId=?').get(interaction.user.id)
+				if(!find){
+					interaction.reply({content:'⚠️ 해당 명령어는 정보가 등록된 회원만 사용이 가능합니다.',flags:MessageFlags.Ephemeral})
+					return
+				}
+
+				// 상태 확인
+				const statusRow = db.prepare('SELECT * FROM status WHERE userId=?').get(interaction.user.id)
+				const userStatus = statusRow.status
+
+				if (Object.prototype.hasOwnProperty.call(command, 'availableStatus')) {
+					if (!Array.isArray(command.availableStatus) || !command.availableStatus.includes(userStatus)) {
+						interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.', flags: MessageFlags.Ephemeral})
+						return
+					}
+				} else if (userStatus !== null) {
+					interaction.reply({content:'⚠️ 해당 명령어는 현재 상태에서 사용할 수 없습니다.', flags: MessageFlags.Ephemeral})
+					return
+				}
+			}
+
 			try {
 				await command.execute(interaction);
 			} catch (error) {

@@ -3,12 +3,11 @@ const { SlashCommandBuilder, EmbedBuilder,ActionRowBuilder,ButtonBuilder,ButtonS
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('회원탈퇴')
-		.setDescription('회원탈퇴 절차를 진행합니다.')
-    .setDMPermission(false),
+		.setDescription('회원탈퇴 절차를 진행합니다.'),
   permission:2,
 	async execute(interaction) {
     const db = interaction.client.db
-    const find = db.prepare('SELECT * FROM user WHERE user_id=?')
+    const find = db.prepare('SELECT * FROM user WHERE userId=?')
     const user = find.get(interaction.user.id)
 
     //동일 회원 존재여부 확인

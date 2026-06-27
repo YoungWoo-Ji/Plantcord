@@ -5,7 +5,7 @@ module.exports = {
   permission:2,
   async execute(interaction){
     const db = interaction.client.db
-    const find = db.prepare('SELECT * FROM user WHERE user_id=?')
+    const find = db.prepare('SELECT * FROM user WHERE userId=?')
     const user = find.get(interaction.user.id)
 
     //동일 회원 존재여부 확인
@@ -16,7 +16,7 @@ module.exports = {
 
     //데이터 삭제 절차
     //user에서 삭제
-    db.prepare('DELETE FROM user WHERE user_id=?')
+    db.prepare('DELETE FROM user WHERE userId=?')
       .run(interaction.user.id)
 
     const embed = new EmbedBuilder()

@@ -4,8 +4,7 @@ const { discord_invite_code,clientId } = require('../../config.json')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('어플정보')
-		.setDescription('어플의 기본 정보를 제공합니다.')
-    .setDMPermission(false),
+		.setDescription('어플의 기본 정보를 제공합니다.'),
   permission:1,
 	async execute(interaction) {
     const client = interaction.client
@@ -15,7 +14,7 @@ module.exports = {
     const createAt = new Date(client.user.createdAt)
     //임베드
     const embed = new EmbedBuilder()
-      .setColor('Blurple')
+      .setColor('Green')
       .setTitle('어플 정보')
       .setDescription('어플리케이션의 잡다한 정보들입니다.')
       .addFields(

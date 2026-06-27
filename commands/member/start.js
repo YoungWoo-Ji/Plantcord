@@ -4,13 +4,12 @@ module.exports = {
   
 	data: new SlashCommandBuilder()
 		.setName('회원가입')
-		.setDescription('회원가입을 진행합니다.')
-    .setDMPermission(false),
+		.setDescription('회원가입을 진행합니다.'),
   permission:1,
 	async execute(interaction) {
 
     const db = interaction.client.db
-    const user = db.prepare('SELECT * FROM user WHERE user_id=?').get(interaction.user.id)
+    const user = db.prepare('SELECT * FROM user WHERE userId=?').get(interaction.user.id)
 
     // 동일 회원 존재여부 확인
     if (user){
